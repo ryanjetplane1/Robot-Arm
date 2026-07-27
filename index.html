@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Robotic Arm BLE Controller</title>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <style>
+        body { margin: 0; background: #222; color: white; font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; -webkit-user-select: none; }
+        .container { display: flex; justify-content: space-around; width: 100%; max-width: 600px; margin-bottom: 20px; }
+        .joystick-zone { display: flex; flex-direction: column; align-items: center; }
+        .pad { width: 140px; height: 140px; background: #333; border: 4px solid #666; border-radius: 50%; position: relative; touch-action: none; }
+        .stick { width: 50px; height: 50px; background: #008CBA; border: 2px solid #005F73; border-radius: 50%; position: absolute; top: 45px; left: 45px; transform: translate(0, 0); pointer-events: none; }
+        .label { margin-bottom: 10px; font-weight: bold; font-size: 14px; text-transform: uppercase; color: #aaa; }
+        .btn-frame { width: 90%; max-width: 500px; display: flex; flex-direction: column; gap: 10px; }
+        button { width: 100%; padding: 15px; font-size: 16px; font-weight: bold; color: white; border: none; border-radius: 8px; cursor: pointer; transition: background 0.2s; }
+        .btn-macro { background: #8CD376; }
+        .btn-macro:active { background: #6da35a; }
+        .btn-reset { background: #C71D42; }
+        .btn-reset:active { background: #961530; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="joystick-zone">
+            <div class="label">Left Stick</div>
+            <div class="pad" id="padL"><div class="stick" id="stickL"></div></div>
+        </div>
+        <div class="joystick-zone">
+            <div class="label">Right Stick</div>
+            <div class="pad" id="padR"><div class="stick" id="stickR"></div></div>
+        </div>
+    </div>
+
+    <div class="btn-frame">
+        <button class="btn-macro" id="connectBtn">Connect</button>
+        <button class="btn-macro" id="macroBtn">Run Macro</button>
+        <button class="btn-reset" id="resetBtn">Reset</button>
+    </div>
+
+    <script>
+        let data = { lx: 0, ly: 0, rx: 0, ry: 0 };
+        let apiReady = false;
+        let lastSentPacket = "";
+        let bleDevice = null;
+        let bleCharacteristic = null;
+        let reconnectAttempts = 0;
+        const MAX_RECONNECT_ATTEMPTS = 5;
+
+        const SERVICE_UUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
+        const CHAR_UUID = "19b10001-e8f2-537e-4f6c-d104768a1214";
+
+        async function onDisconnected() {
+            apiReady = false;
+            document.getElementById('connectBtn').textContent = "Disconnected. Reconnecting...";
+            attemptReconnect();
+        }
+
+        async function attemptReconnect() {
+            if (!bleDevice) return;
+            if (reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+                document.getElementById('connectBtn').textContent = "Connection Lost. Click to Reconnect.";
+                reconnectAttempts = 0;
+                return;
+            }
+
+            reconnectAttempts++;
+            try {
+                const server = await bleDevice.gatt.connect();
+                const service = await server.getPrimaryService(SERVICE_UUID);
+                bleCharacteristic = await service.getCharacteristic(CHAR_UUID);
+                
+                apiReady = true;
+                reconnectAttempts = 0;
+                document.getElementById('connectBtn').textContent = "Connected";
+            } catch (err) {
+                setTimeout(attemptReconnect, 2000); // Wait 2 seconds before trying again
+            }
+        }
+
+        async function connectBLE() {
+            if (!navigator.bluetooth) {
+                document.getElementById('connectBtn').textContent = "BLE Not Supported";
+                let btnFrame = document.querySelector('.btn-frame');
+                let errorMsg = document.getElementById('ble-error');
+                if(!errorMsg) {
+                    errorMsg = document.createElement('div');
+                    errorMsg.id = 'ble-error';
+                    errorMsg.style.color = '#ff6b6b';
+                    errorMsg.style.fontSize = '13px';
+                    errorMsg.style.textAlign = 'center';
+                    errorMsg.style.marginTop = '10px';
+                    errorMsg.innerText = "Web Bluetooth isn't supported in this browser. On iOS, use a WebBLE app like 'Bluefy'. On Android, use Chrome.";
+                    btnFrame.insertBefore(errorMsg, document.getElementById('connectBtn'));
+                }
+                return;
+            }
+
+            try {
+                document.getElementById('connectBtn').textContent = "Scanning...";
+                bleDevice = await navigator.bluetooth.requestDevice({
+                    filters: [{ name: "Arduino_Robot_Arm" }],
+                    optionalServices: [SERVICE_UUID]
+                });
+                
+                bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
+                
+                document.getElementById('connectBtn').textContent = "Connecting...";
+                const server = await bleDevice.gatt.connect();
+                const service = await server.getPrimaryService(SERVICE_UUID);
+                bleCharacteristic = await service.getCharacteristic(CHAR_UUID);
+                
+                apiReady = true;
+                reconnectAttempts = 0;
+                document.getElementById('connectBtn').textContent = "Connected";
+            } catch (err) {
+                apiReady = false;
+                document.getElementById('connectBtn').textContent = "Failed: " + err.message;
+            }
+        }
+
+        document.getElementById('connectBtn').addEventListener('click', connectBLE);
+
+        function getPacketString() {
+            return `${data.lx},${data.ly},${data.rx},${data.ry}\n`;
+        }
+
+        function sendToNative(cmd) {
+            if (!apiReady || !bleCharacteristic) return;
+            const encoder = new TextEncoder();
+            bleCharacteristic.writeValueWithoutResponse(encoder.encode(cmd)).catch(() => {});
+        }
+
+        function sendPacket(force) {
+            if (!apiReady) return;
+            const packet = getPacketString();
+            if (force || packet !== lastSentPacket) {
+                lastSentPacket = packet;
+                sendToNative(packet);
+            }
+        }
+
+        setInterval(() => sendPacket(false), 65);
+        setInterval(() => sendPacket(true), 300);
+
+        function setupJoystick(padId, stickId, isLeft) {
+            const pad = document.getElementById(padId);
+            const stick = document.getElementById(stickId);
+            const maxR = 50;
+            
+            let activeTouchId = null;
+            let isMouseDragging = false;
+
+            function resetPosition() {
+                stick.style.transform = 'translate(0px, 0px)';
+                if (isLeft) { data.lx = 0; data.ly = 0; }
+                else { data.rx = 0; data.ry = 0; }
+                sendPacket(false);
+            }
+
+            function updatePosition(clientX, clientY) {
+                const rect = pad.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                
+                let dx = clientX - cx;
+                let dy = clientY - cy;
+                let dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (dist > maxR) {
+                    dx = (dx / dist) * maxR;
+                    dy = (dy / dist) * maxR;
+                }
+
+                stick.style.transform = `translate(${dx}px, ${dy}px)`;
+                
+                let finalX = Math.round((dx / maxR) * 100);
+                // FIXED: Inverted Y-axis formula (multiplied by 100 instead of -100)
+                let finalY = Math.round((dy / maxR) * 100); 
+                
+                if (isLeft) {
+                    data.lx = Math.abs(finalX) < 15 ? 0 : finalX;
+                    data.ly = Math.abs(finalY) < 15 ? 0 : finalY;
+                } else {
+                    data.rx = Math.round(finalX / 10) * 10;
+                    data.ry = Math.round(finalY / 10) * 10;
+                    if (Math.abs(data.rx) < 15) data.rx = 0;
+                    if (Math.abs(data.ry) < 15) data.ry = 0;
+                }
+                sendPacket(false);
+            }
+
+            pad.addEventListener('mousedown', (e) => {
+                isMouseDragging = true;
+                updatePosition(e.clientX, e.clientY);
+            });
+            window.addEventListener('mousemove', (e) => {
+                if (isMouseDragging) updatePosition(e.clientX, e.clientY);
+            });
+            window.addEventListener('mouseup', () => {
+                if (isMouseDragging) {
+                    isMouseDragging = false;
+                    resetPosition();
+                }
+            });
+
+            pad.addEventListener('touchstart', (e) => {
+                e.preventDefault(); 
+                if (activeTouchId !== null) return; 
+                
+                const touch = e.changedTouches[0];
+                activeTouchId = touch.identifier;
+                updatePosition(touch.clientX, touch.clientY);
+            }, { passive: false });
+
+            window.addEventListener('touchmove', (e) => {
+                if (activeTouchId === null) return;
+                for (let i = 0; i < e.changedTouches.length; i++) {
+                    if (e.changedTouches[i].identifier === activeTouchId) {
+                        e.preventDefault();
+                        updatePosition(e.changedTouches[i].clientX, e.changedTouches[i].clientY);
+                        break;
+                    }
+                }
+            }, { passive: false });
+
+            const handleTouchEnd = (e) => {
+                if (activeTouchId === null) return;
+                for (let i = 0; i < e.changedTouches.length; i++) {
+                    if (e.changedTouches[i].identifier === activeTouchId) {
+                        activeTouchId = null;
+                        resetPosition();
+                        break;
+                    }
+                }
+            };
+
+            window.addEventListener('touchend', handleTouchEnd);
+            window.addEventListener('touchcancel', handleTouchEnd);
+
+            window.addEventListener('blur', () => {
+                isMouseDragging = false;
+                activeTouchId = null;
+                resetPosition();
+            });
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    isMouseDragging = false;
+                    activeTouchId = null;
+                    resetPosition();
+                }
+            });
+        }
+
+        setupJoystick('padL', 'stickL', true);
+        setupJoystick('padR', 'stickR', false);
+
+        document.getElementById('macroBtn').onclick = () => sendToNative('MACRO1\n');
+        document.getElementById('resetBtn').onclick = () => sendToNative('RESET\n');
+    </script>
+</body>
+</html>
