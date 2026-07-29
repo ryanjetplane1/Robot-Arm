@@ -104,4 +104,6 @@ Control page: [ryanjetplane1.github.io/robot-arm](https://ryanjetplane1.github.i
 5. Use the on-screen controls to move the arm.
 
 If the connection fails with a "failed undefined" error, close and reopen the Bluefy browser, then try again.
+
+F3D can be found in the releases section.
 <img width="1013" height="923" alt="image" src="https://github.com/user-attachments/assets/f4d16307-a882-48f1-ad6e-d27216208ba5" />
