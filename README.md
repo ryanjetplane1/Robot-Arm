@@ -29,14 +29,15 @@ Read this before you build or use the arm.
 
 ### Bill of Materials
 
-| Component | Description | Qty |
-|---|---|---|
-| Seeed XIAO ESP32-C5 SuperMini | Main microcontroller with BLE support | 1 |
-| 35kg Servo motor | Drives arm | 3 |
-| 28BYJ-48 stepper motor | Drives base | 1 |
-| ULN2003 driver board | Drives the stepper motor coils | 1 |
-| 10A 8.4v Power supply | Powers all motors | 1 |
-| XL6019 Buck Boost Converter | Stepper motor power | 1 |
+| Component | Description | Qty | Price | Link |
+|---|---|---|---|---|
+| Seeed XIAO ESP32-C5 SuperMini | Main microcontroller | 1 | 12.59$ | [Buy](https://www.aliexpress.us/item/3256811643444390.html) |
+| 35kg Servo motor | Drives arm | 3 | 26.99$ | [Buy](https://www.microcenter.com/product/707728/hiwonder-hps-3518sg-high-speed-coreless-servo-35kg-high-torque) |
+| 28BYJ-48 stepper motor and ULN2003 driver board | Drives base | 1 | 11.99$ | [Buy](https://www.microcenter.com/product/639726/inland-ks0327-keyestudio-stepper-motor-drive-board-5v-stepper-motor-kit-(3pcs)) |
+| 10A 8.4v Power supply | Powers all motors | 1 | 39.99$ | [Buy](https://www.amazon.com/gp/product/B0CRSS744F) |
+| XL6019 Buck Boost Converter | Stepper motor power | 1 | 5.99$ | [Buy](https://www.amazon.com/gp/product/B08CHCG79J) |
+| | | | **Total: $151.53** | |
+
 
 The base requires low torque so most steppers will work.
 
