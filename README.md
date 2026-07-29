@@ -9,7 +9,7 @@ Four axes of movement, three servos and a stepper for base rotation, controlled 
 This project is a robotic arm with four axes of movement. 2 Bluetooth Low Energy joysticks controls the arm. The arm uses an ESP32-C5 microcontroller. The microcontroller sends commands to three servo motors and one stepper motor. You can control the arm through a web browser or preprogramming with a macro. The web browser uses Web Bluetooth to connect to the arm.
 
 **Features**
-- Four axes of movement. Three axes use servo motors. One axis (Base) uses a stepper motor.
+- Base, Elbow, Arm, Fingers. Three axes use servo motors. One axis (Base) uses a stepper motor.
 - Adjustable control from 2 joysticks.
 - Browser based control through Web Bluetooth.
 - A preset movement sequence that runs without input.
@@ -44,7 +44,7 @@ The base requires low torque so most steppers will work.
 
 **Servos**
 
-| Servo | Pin |
+| Servo | Board Pin |
 |---|---|
 | Servo 1 | D9 |
 | Servo 2 | D5 |
@@ -52,18 +52,28 @@ The base requires low torque so most steppers will work.
 
 **Stepper (base rotation)**
 
-| Driver Input | Pin |
+| Driver | Board Pin |
 |---|---|
 | IN1 | D0 |
 | IN2 | D1 |
 | IN3 | D2 |
 | IN4 | D3 |
 
-Connect all grounds together including microcontroller and power supply. Connect all motor power wires to 8.4 V. Do not connect the motor power rail to the microcontroller power pin.
+**Power**
+
+| Buck Boost Converter | Stepper Pin |
+| IN- | Gnd |
+| IN+ | 8.4v |
+| Out- | Gnd |
+| Out+ | 5v |
+
+
+
+Connect all grounds together including microcontroller and power supply. Connect all servo power wires to 8.4 V. The stepper motor should be powered with 5v. Do not connect the motor power rail to the microcontroller power pin.
 
 ## Firmware
 
-The firmware runs on the ESP32-C5. The firmware controls the three servos directly. The firmware controls the stepper motor with a 4-step sequence.
+The firmware runs on the ESP32-C5. The firmware controls the three servos directly while the stepper motor is controlled with a 4-step sequence.
 
 **Install**
 1. Open the firmware project in the Arduino IDE.
