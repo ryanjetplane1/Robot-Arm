@@ -98,7 +98,7 @@ Control page: [ryanjetplane1.github.io/robot-arm](https://ryanjetplane1.github.i
 1. Open the link above.
 2. On iPhone, use the Bluefy browser. Standard iOS browsers do not support Web Bluetooth.
 3. Tap Connect on the web page.
-4. Select `RobotArm` from the device list.
+4. Select RobotArm from the device list.
 5. Use the on-screen controls to move the arm.
 
 If the connection fails with a "failed undefined" error, close and reopen the Bluefy browser, then try again.
