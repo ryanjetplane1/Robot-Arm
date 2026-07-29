@@ -95,7 +95,7 @@ The BLE joystick sends data to the arm over Bluetooth Low Energy. Pair the joyst
 
 **Web Bluetooth**
 
-Control page: [ryanjetplane1.github.io/robot-arm](https://ryanjetplane1.github.io/Robot-Arm/)
+Control page: [ryanjetplane1.github.io/Robot-Arm](https://ryanjetplane1.github.io/Robot-Arm/)
 
 1. Open the link above.
 2. On iPhone, use the Bluefy browser. Standard iOS browsers do not support Web Bluetooth.
