@@ -80,7 +80,7 @@ The firmware runs on the ESP32-C5. The firmware controls the three servos direct
 **Install**
 1. Open the firmware project in the Arduino IDE.
 2. Install the ESP32Servo library and the ESP32 BLE libraries.
-3. Select the board type "XIAO ESP32-C5" from the board manager.
+3. Select the board type XIAO ESP32-C5 from the board manager.
 4. Connect the microcontroller to your computer with a USB cable.
 5. Select the correct serial port.
 6. Click Upload to load the firmware onto the microcontroller.
