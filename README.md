@@ -1,3 +1,4 @@
+<img width="2160" height="1082" alt="robot_2026-Jul-27_10-26-27PM-000_CustomizedView28080097244" src="https://github.com/user-attachments/assets/b26701ec-0e6b-4fcb-bcbe-95d628ccafba" />
 # 4-Axis Robotic Arm
 
 A BLE controlled robotic arm built on the ESP32-C5. Control it with the website on desktop or on iphone using the Bluefy app.
