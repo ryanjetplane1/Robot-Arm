@@ -60,8 +60,9 @@ The base requires low torque so most steppers will work.
 | IN4 | D3 |
 
 **Power**
-|---|---|
+
 | Converter | Stepper Pin |
+|---|---|
 | IN- | Gnd |
 | IN+ | 8.4v |
 | Out- | Gnd |
