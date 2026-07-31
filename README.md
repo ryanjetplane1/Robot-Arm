@@ -111,6 +111,13 @@ If the connection fails with a "failed undefined" error, close and reopen the Bl
 ## Assembly
 
 **How to build**
+<img width="1105" height="1093" alt="image" src="https://github.com/user-attachments/assets/c1bb98ff-1fda-42a0-bcbd-a36db90ec35e" />
+
+<img width="1041" height="1138" alt="image" src="https://github.com/user-attachments/assets/ce433405-b9e8-490d-82d5-491cd79b6f34" />
+
+<img width="1012" height="1096" alt="image" src="https://github.com/user-attachments/assets/a694e53a-d163-4e46-bd74-bd9fd295a4b7" />
+
+<img width="942" height="1086" alt="image" src="https://github.com/user-attachments/assets/0f8e17fa-f73c-4345-b759-1914c6c8b47b" />
 
 Blah Blah
 
