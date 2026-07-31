@@ -117,13 +117,13 @@ Step 1: Insert the motor
 <img width="1196" height="1141" alt="image" src="https://github.com/user-attachments/assets/21b6f122-7fc0-4724-b644-a326eee7c94d" />
 Step 2: Push in the base
 <img width="1145" height="1148" alt="image" src="https://github.com/user-attachments/assets/8ca83155-05f7-42d9-aaee-f25308a77140" />
-Step 3:
+Step 3: Insert parts and slot in box
 <img width="1105" height="1093" alt="image" src="https://github.com/user-attachments/assets/c1bb98ff-1fda-42a0-bcbd-a36db90ec35e" />
-
+Step 4: Push in servo mount 1
 <img width="1041" height="1138" alt="image" src="https://github.com/user-attachments/assets/ce433405-b9e8-490d-82d5-491cd79b6f34" />
-
+Step 5: Push in servo mount 2
 <img width="1012" height="1096" alt="image" src="https://github.com/user-attachments/assets/a694e53a-d163-4e46-bd74-bd9fd295a4b7" />
-
+Step 6: Insert servos and grippers
 <img width="942" height="1086" alt="image" src="https://github.com/user-attachments/assets/0f8e17fa-f73c-4345-b759-1914c6c8b47b" />
 
 
