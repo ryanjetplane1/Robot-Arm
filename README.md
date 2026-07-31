@@ -126,7 +126,6 @@ If the connection fails with a "failed undefined" error, close and reopen the Bl
 
 <img width="942" height="1086" alt="image" src="https://github.com/user-attachments/assets/0f8e17fa-f73c-4345-b759-1914c6c8b47b" />
 
-Blah Blah
 
 
 F3D can be found in the releases section.
