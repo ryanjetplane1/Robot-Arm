@@ -130,3 +130,5 @@ Step 6: Insert servos and grippers
 
 F3D can be found in the releases section.
 <img width="1013" height="923" alt="image" src="https://github.com/user-attachments/assets/f4d16307-a882-48f1-ad6e-d27216208ba5" />
+Demo video
+https://m.youtube.com/watch?v=tXdHmja3yAY&feature=youtu.be
