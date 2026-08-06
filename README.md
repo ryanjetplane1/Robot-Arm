@@ -30,7 +30,6 @@ Read this before you build or use the arm.
 ## Hardware
 
 ### Bill of Materials
-
 | Component | Description | Qty | Price | Link |
 |---|---|---|---|---|
 | Seeed XIAO ESP32-C5 SuperMini | Main microcontroller | 1 | 12.59$ | [Buy](https://www.aliexpress.us/item/3256811643444390.html) |
@@ -38,8 +37,8 @@ Read this before you build or use the arm.
 | 28BYJ-48 stepper motor and ULN2003 driver board | Drives base | 1 | 11.99$ | [Buy](https://www.microcenter.com/product/639726/inland-ks0327-keyestudio-stepper-motor-drive-board-5v-stepper-motor-kit-(3pcs)) |
 | 10A 8.4v Power supply | Powers all motors | 1 | 39.99$ | [Buy](https://www.amazon.com/gp/product/B0CRSS744F) |
 | XL6019 Buck Boost Converter | Stepper motor power | 1 | 5.99$ | [Buy](https://www.amazon.com/gp/product/B08CHCG79J) |
-| | | | **Total: $151.53** | |
-
+| 2.4/5.8GHz Dual Band WiFi Antenna + U.FL Pigtail | BLE/WiFi range boost (Not necessary so not included in total or BOM) | 2 | 9.53$ | [Buy](https://www.amazon.com/dp/B07PBFKJSN) |
+| | | | **Total: $151.06** | |
 
 The base requires low torque so most steppers will work.
 
