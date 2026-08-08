@@ -69,7 +69,8 @@ The base requires low torque so most steppers will work.
 | Out- | Gnd |
 | Out+ | 5v |
 
-<img width="1634" height="990" alt="wiring diagram" src="https://github.com/user-attachments/assets/a5f09c82-6d8f-4c7a-8a9d-b0e9eb664715" />
+<img width="1091" height="668" alt="wiring diagram" src="https://github.com/user-attachments/assets/17553995-6ca1-4ff4-9a5d-3f25a942e7a6" />
+
 
 
 Connect all grounds together including microcontroller and power supply. Connect all servo power wires to 8.4 V. The stepper motor should be powered with 5v. Do not connect the motor power rail to the microcontroller power pin.
